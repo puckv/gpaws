@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+CREDFILE=~/.aws/credentials.gpg
+
+echo "Decrypting AWS credentials from ${CREDFILE}"
+read AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY < <(gpg -d "$CREDFILE")
+export AWS_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY
+
+if [[ ! -z "$@" ]]; then
+  aws "$@"
+fi
